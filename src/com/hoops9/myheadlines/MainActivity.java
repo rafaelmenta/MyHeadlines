@@ -1,37 +1,41 @@
 package com.hoops9.myheadlines;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class MainActivity extends Activity {
+import com.hoops9.myheadlines.business.RSSFeedReader;
+import com.hoops9.myheadlines.dao.HeadlineItem;
+
+import android.app.ListActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.SimpleAdapter;
+
+public class MainActivity extends ListActivity {
 	
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		String[] listValues = new String[] {
-			    "00h34 Multimilionário procura casal para viajar a Marte em 2018",
-			    "21h04 Turista espacial Dennis Tito quer lançar missão humana a...",
-			    "12h22 Falta de gravidade debilita o sistema imunológico dos...",
-			    "16h46 Cientistas usam vídeos para achar origem do meteorito da...",
-			    "11h52 Asteroides são cada vez mais ameaçadores, alerta...",
-			    "10h16 Astronauta captura e divulga no Twitter imagens do espaço",
-			    "14h22 Astronautas interagem ao vivo com internautas em 1º chat...",
-			    "10h28 Nasa promove bate-papo com astronautas hoje; saiba como...",
-			    "07h24 Astrônomo: alguns meteoritos são impossíveis de prever",
-			    "21h10 Curiosity encontra rocha cinzenta sob superfície de Marte"
-		};
-
 		
-		ListView headlinesList = (ListView) findViewById(R.id.headlines_list);
-		ArrayAdapter<String> resource = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, listValues);
-		headlinesList.setAdapter(resource);
+		// Create the item mapping
+	    String[] from = new String[] { "time", "headline" };
+	    int[] to = new int[] { R.id.time, R.id.headline };
 		
+		List<HashMap<String, Object>> fillMaps = new ArrayList<HashMap<String,Object>>();
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<HeadlineItem> headlines = RSSFeedReader.getHeadlines();
+		
+		for (HeadlineItem item : headlines) {
+			map.put("time", item.getTime());
+			map.put("headline", item.getHeadline());
+			fillMaps.add(map);
+			map = new HashMap<String, Object>();
+		}
+		SimpleAdapter adapter = new SimpleAdapter(this, fillMaps, R.layout.row, from, to);
+		setListAdapter(adapter);
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

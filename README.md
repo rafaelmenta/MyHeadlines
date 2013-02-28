@@ -1,4 +1,4 @@
 MyHeadlines
 ===========
 
-A simple RSS feed for Android
+A simple RSS feed reader for Android

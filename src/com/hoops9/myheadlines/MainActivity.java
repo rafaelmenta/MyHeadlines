@@ -4,28 +4,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hoops9.myheadlines.business.RSSFeedReader;
-import com.hoops9.myheadlines.dao.HeadlineItem;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.SimpleAdapter;
 
+import com.hoops9.myheadlines.business.RSSFeedReader;
+import com.hoops9.myheadlines.dao.HeadlineItem;
+
 public class MainActivity extends ListActivity {
+	List<HeadlineItem> headlines;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		new RSSFeedReader(this).execute();
+	}
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	public void renderHeadLines(List<HeadlineItem> headlines) {
 		// Create the item mapping
-	    String[] from = new String[] { "time", "headline" };
-	    int[] to = new int[] { R.id.time, R.id.headline };
+		String[] from = new String[] { "time", "headline" };
+		int[] to = new int[] { R.id.time, R.id.headline };
 		
 		List<HashMap<String, Object>> fillMaps = new ArrayList<HashMap<String,Object>>();
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<HeadlineItem> headlines = RSSFeedReader.getHeadlines();
-		
+		this.headlines = headlines;
 		for (HeadlineItem item : headlines) {
 			map.put("time", item.getTime());
 			map.put("headline", item.getHeadline());
@@ -36,12 +47,5 @@ public class MainActivity extends ListActivity {
 		setListAdapter(adapter);
 	}
 	
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 
 }

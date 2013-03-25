@@ -1,15 +1,24 @@
 package com.hoops9.myheadlines.business;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import android.sax.Element;
+import android.sax.EndElementListener;
+import android.sax.EndTextElementListener;
+import android.sax.RootElement;
+import android.util.Xml;
 
 import com.hoops9.myheadlines.dao.HeadlineItem;
 
 public class RSSHandler extends DefaultHandler {
+
+	private static final String CHANNEL = "channel";
+
+	public static final String DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
 
 	static final String PUB_DATE = "pubDate";
 	static final String DESCRIPTION = "description";
@@ -17,52 +26,55 @@ public class RSSHandler extends DefaultHandler {
 	static final String TITLE = "title";
 	static final String ITEM = "item";
 
-	private List<HeadlineItem> headlines;
-	private HeadlineItem currentItem;
-	private StringBuilder builder;
+	private InputStream inputStream;
 
-	public List<HeadlineItem> getHeadlines() {
-		return this.headlines;
+	public RSSHandler(InputStream rssStream) {
+		this.inputStream = rssStream;
 	}
 
-	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
-		super.characters(ch, start, length);
-		builder.append(ch, start, length);
-	}
-
-	@Override
-	public void endElement(String uri, String localName, String name) throws SAXException {
-		super.endElement(uri, localName, name);
-		if (this.currentItem != null) {
-			if (localName.equalsIgnoreCase(TITLE)) {
-				currentItem.setHeadline(builder.toString());
-			} else if (localName.equalsIgnoreCase(LINK)) {
-				// currentItem.setLink(builder.toString());
-			} else if (localName.equalsIgnoreCase(DESCRIPTION)) {
-				// currentItem.setDescription(builder.toString());
-			} else if (localName.equalsIgnoreCase(PUB_DATE)) {
-				currentItem.setTime(builder.toString());
-			} else if (localName.equalsIgnoreCase(ITEM)) {
-				headlines.add(currentItem);
+	public List<HeadlineItem> parse() {
+		final HeadlineItem currentMessage = new HeadlineItem();
+		RootElement root = new RootElement("rss");
+		final List<HeadlineItem> messages = new ArrayList<HeadlineItem>();
+		Element channel = root.getChild(CHANNEL);
+		Element item = channel.getChild(ITEM);
+		item.setEndElementListener(new EndElementListener() {
+			public void end() {
+				messages.add((HeadlineItem) currentMessage.copy());
 			}
-			builder.setLength(0);
-		}
-	}
+		});
+		item.getChild(TITLE).setEndTextElementListener(
+				new EndTextElementListener() {
+					public void end(String body) {
+						currentMessage.setHeadline(body);
+					}
+				});
+		item.getChild(LINK).setEndTextElementListener(
+				new EndTextElementListener() {
+					public void end(String body) {
+						currentMessage.setLink(body);
+					}
+				});
+		item.getChild(DESCRIPTION).setEndTextElementListener(
+				new EndTextElementListener() {
+					public void end(String body) {
+						currentMessage.setDescription(body);
+					}
+				});
+		item.getChild(PUB_DATE).setEndTextElementListener(
+				new EndTextElementListener() {
+					public void end(String body) {
+						currentMessage.setTime(body, DATE_FORMAT);
+					}
+				});
 
-	@Override
-	public void startDocument() throws SAXException {
-		super.startDocument();
-		headlines = new ArrayList<HeadlineItem>();
-		builder = new StringBuilder();
-	}
-
-	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
-		super.startElement(uri, localName, name, attributes);
-		if (localName.equalsIgnoreCase(ITEM)) {
-			this.currentItem = new HeadlineItem();
+		try {
+			Xml.parse(this.inputStream, Xml.Encoding.UTF_8,
+					root.getContentHandler());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
+		return messages;
 	}
 
 }

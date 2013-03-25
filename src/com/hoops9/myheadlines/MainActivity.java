@@ -7,10 +7,10 @@ import java.util.List;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.SimpleAdapter;
 
-import com.hoops9.myheadlines.business.RSSFeedReader;
+import com.hoops9.adapter.IconicAdapter;
 import com.hoops9.myheadlines.dao.HeadlineItem;
+import com.hoops9.task.RSSFeedReader;
 
 public class MainActivity extends ListActivity {
 	List<HeadlineItem> headlines;
@@ -38,12 +38,12 @@ public class MainActivity extends ListActivity {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		this.headlines = headlines;
 		for (HeadlineItem item : headlines) {
-			map.put("time", item.getTime());
+			map.put("time", item.getFormattedPubDate());
 			map.put("headline", item.getHeadline());
 			fillMaps.add(map);
 			map = new HashMap<String, Object>();
 		}
-		SimpleAdapter adapter = new SimpleAdapter(this, fillMaps, R.layout.row, from, to);
+		IconicAdapter adapter = new IconicAdapter(this, fillMaps, R.layout.row, from, to);
 		setListAdapter(adapter);
 	}
 	

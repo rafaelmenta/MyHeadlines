@@ -1,4 +1,4 @@
-package com.hoops9.myheadlines.business;
+package com.hoops9.task;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -6,9 +6,9 @@ import java.net.URL;
 import java.util.List;
 
 import android.os.AsyncTask;
-import android.util.Xml;
 
 import com.hoops9.myheadlines.MainActivity;
+import com.hoops9.myheadlines.business.RSSHandler;
 import com.hoops9.myheadlines.dao.HeadlineItem;
 
 public class RSSFeedReader extends AsyncTask<String, Void, List<HeadlineItem>>{
@@ -37,9 +37,8 @@ public class RSSFeedReader extends AsyncTask<String, Void, List<HeadlineItem>>{
 		}
 		
 		try {
-			RSSHandler handler = new RSSHandler();
-			Xml.parse(rssStream, Xml.Encoding.UTF_8, handler);
-			return handler.getHeadlines();
+			RSSHandler handler = new RSSHandler(rssStream);
+			return handler.parse();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

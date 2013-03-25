@@ -24,7 +24,7 @@ public class HeadlineItem implements Comparable<HeadlineItem>, Serializable {
 	private Date pubDate;
 	private String headline;
 	private URL link;
-	private String descriprion;
+	private String content;
 
 	public Date getPubDate() {
 		return pubDate;
@@ -78,12 +78,12 @@ public class HeadlineItem implements Comparable<HeadlineItem>, Serializable {
 		}
 	}
 
-	public String getDescription() {
-		return descriprion;
+	public String getContent() {
+		return content;
 	}
 
-	public void setDescription(String descriprion) {
-		this.descriprion = descriprion;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	@Override

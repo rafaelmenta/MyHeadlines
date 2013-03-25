@@ -3,27 +3,36 @@
     package="com.hoops9.myheadlines"
     android:versionCode="1"
     android:versionName="1.0" >
-    
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
     <application
         android:allowBackup="true"
-        android:permission="android.permission.INTERNET"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:permission="android.permission.INTERNET"
         android:theme="@style/AppTheme" >
-        
         <activity
-            android:name="com.hoops9.myheadlines.MainActivity"
+            android:name="com.hoops9.myheadlines.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hoops9.myheadlines.activity.HeadlineItemActivity"
+            android:label="@string/title_activity_head_line_item"
+            android:parentActivityName="com.hoops9.myheadlines.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hoops9.myheadlines.activity.MainActivity" />
         </activity>
     </application>
 

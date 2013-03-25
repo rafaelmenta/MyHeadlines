@@ -1,4 +1,4 @@
-package com.hoops9.myheadlines;
+package com.hoops9.myheadlines.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +8,10 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.hoops9.adapter.IconicAdapter;
+import com.hoops9.myheadlines.R;
+import com.hoops9.myheadlines.adapter.IconicAdapter;
 import com.hoops9.myheadlines.dao.HeadlineItem;
-import com.hoops9.task.RSSFeedReader;
+import com.hoops9.myheadlines.task.RSSFeedReader;
 
 public class MainActivity extends ListActivity {
 	List<HeadlineItem> headlines;
@@ -30,8 +31,8 @@ public class MainActivity extends ListActivity {
 	
 	public void renderHeadLines(List<HeadlineItem> headlines) {
 		// Create the item mapping
-		String[] from = new String[] { "time", "headline" };
-		int[] to = new int[] { R.id.time, R.id.headline };
+		String[] from = new String[] { "time", "headline", "content" };
+		int[] to = new int[] { R.id.time, R.id.headline, R.id.content };
 		
 		List<HashMap<String, Object>> fillMaps = new ArrayList<HashMap<String,Object>>();
 		
@@ -40,12 +41,11 @@ public class MainActivity extends ListActivity {
 		for (HeadlineItem item : headlines) {
 			map.put("time", item.getFormattedPubDate());
 			map.put("headline", item.getHeadline());
+			map.put("content", item.getContent());
 			fillMaps.add(map);
 			map = new HashMap<String, Object>();
 		}
 		IconicAdapter adapter = new IconicAdapter(this, fillMaps, R.layout.row, from, to);
 		setListAdapter(adapter);
 	}
-	
-
 }

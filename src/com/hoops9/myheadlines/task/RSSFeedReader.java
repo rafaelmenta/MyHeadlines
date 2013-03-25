@@ -1,4 +1,4 @@
-package com.hoops9.task;
+package com.hoops9.myheadlines.task;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import android.os.AsyncTask;
 
-import com.hoops9.myheadlines.MainActivity;
+import com.hoops9.myheadlines.activity.MainActivity;
 import com.hoops9.myheadlines.business.RSSHandler;
 import com.hoops9.myheadlines.dao.HeadlineItem;
 

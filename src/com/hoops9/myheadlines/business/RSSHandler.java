@@ -21,7 +21,7 @@ public class RSSHandler extends DefaultHandler {
 	public static final String DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
 
 	static final String PUB_DATE = "pubDate";
-	static final String DESCRIPTION = "description";
+	static final String CONTENT = "encoded";
 	static final String LINK = "link";
 	static final String TITLE = "title";
 	static final String ITEM = "item";
@@ -55,10 +55,10 @@ public class RSSHandler extends DefaultHandler {
 						currentMessage.setLink(body);
 					}
 				});
-		item.getChild(DESCRIPTION).setEndTextElementListener(
+		item.getChild(CONTENT).setEndTextElementListener(
 				new EndTextElementListener() {
 					public void end(String body) {
-						currentMessage.setDescription(body);
+						currentMessage.setContent(body);
 					}
 				});
 		item.getChild(PUB_DATE).setEndTextElementListener(

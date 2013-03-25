@@ -1,4 +1,4 @@
-package com.hoops9.task;
+package com.hoops9.myheadlines.task;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,15 +7,18 @@ import java.net.URL;
 
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.view.View;
 
-import com.hoops9.adapter.IconicAdapter;
+import com.hoops9.myheadlines.adapter.IconicAdapter;
 
 public class FaviconLoader extends AsyncTask<String, Void, Drawable>{
 	
 	private IconicAdapter adapter;
+	private View currentView;
 	
-	public FaviconLoader(IconicAdapter adapter) {
+	public FaviconLoader(IconicAdapter adapter, View currentView) {
 		this.adapter = adapter;
+		this.currentView = currentView;
 	}
 	
 	public Drawable loadFavicon() {
@@ -36,13 +39,12 @@ public class FaviconLoader extends AsyncTask<String, Void, Drawable>{
 
 	@Override
 	protected Drawable doInBackground(String... params) {
-		System.out.println("Loading...");
 		return this.loadFavicon();
 	}
 	
 	@Override
 	protected void onPostExecute(Drawable result) {
-		this.adapter.setFavicon(result);
+		this.adapter.setFavicon(result, this.currentView);
 	}
 	
 }

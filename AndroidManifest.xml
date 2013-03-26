@@ -13,23 +13,27 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:permission="android.permission.INTERNET"
-        android:theme="@style/AppTheme" android:hardwareAccelerated="true">
+        android:theme="@style/AppTheme" >
         <activity
-            android:name="com.hoops9.myheadlines.activity.MainActivity"
+            android:name="com.hoops9.myheadlines.activity.TabsFragmentActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name="com.hoops9.myheadlines.activity.OverviewActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.hoops9.myheadlines.activity.HeadlineItemActivity"
             android:label="@string/title_activity_head_line_item"
-            android:parentActivityName="com.hoops9.myheadlines.activity.MainActivity" >
+            android:parentActivityName="com.hoops9.myheadlines.activity.OverviewActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hoops9.myheadlines.activity.MainActivity" />

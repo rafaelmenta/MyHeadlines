@@ -7,15 +7,15 @@ import java.util.List;
 
 import android.os.AsyncTask;
 
-import com.hoops9.myheadlines.activity.MainActivity;
 import com.hoops9.myheadlines.business.RSSHandler;
 import com.hoops9.myheadlines.dao.HeadlineItem;
+import com.hoops9.myheadlines.tab.TabFragment1;
 
 public class RSSFeedReader extends AsyncTask<String, Void, List<HeadlineItem>>{
 	
-	private MainActivity activity;
+	private TabFragment1 activity;
 	
-	public RSSFeedReader(MainActivity activity) {
+	public RSSFeedReader(TabFragment1 activity) {
 		this.activity = activity;
 	}
 	

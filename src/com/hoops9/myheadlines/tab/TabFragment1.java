@@ -1,32 +1,26 @@
-package com.hoops9.myheadlines.activity;
+package com.hoops9.myheadlines.tab;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.ListActivity;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v4.app.ListFragment;
 
 import com.hoops9.myheadlines.R;
 import com.hoops9.myheadlines.adapter.IconicAdapter;
 import com.hoops9.myheadlines.dao.HeadlineItem;
 import com.hoops9.myheadlines.task.RSSFeedReader;
 
-public class MainActivity extends ListActivity {
+@SuppressLint("NewApi")
+public class TabFragment1 extends ListFragment {
+	
 	List<HeadlineItem> headlines;
 	
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		new RSSFeedReader(this).execute();
-	}
-	
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 	
 	public void renderHeadLines(List<HeadlineItem> headlines) {
@@ -47,7 +41,8 @@ public class MainActivity extends ListActivity {
 			fillMaps.add(map);
 			map = new HashMap<String, Object>();
 		}
-		IconicAdapter adapter = new IconicAdapter(this, fillMaps, R.layout.row, from, to);
+		
+		IconicAdapter adapter = new IconicAdapter(getActivity(), fillMaps, R.layout.row, from, to);
 		setListAdapter(adapter);
 	}
 }

@@ -33,6 +33,7 @@ public final class R {
         public static final int content=0x7f090002;
         public static final int favicon=0x7f090003;
         public static final int headline=0x7f090001;
+        public static final int realtabcontent=0x01010000;
         public static final int time=0x7f090004;
         public static final int title=0x7f090000;
     }
@@ -41,6 +42,8 @@ public final class R {
         public static final int activity_main=0x7f030001;
         public static final int item_view=0x7f030002;
         public static final int row=0x7f030003;
+        public static final int tab_fragment=0x7f030004;
+        public static final int tabs_layout=0x7f030005;
     }
     public static final class menu {
         public static final int head_line_item=0x7f080000;

@@ -20,10 +20,10 @@
         android:id="@+id/time"
         android:layout_toRightOf="@id/favicon"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:singleLine="true"
-        android:textIsSelectable="true"
+        android:textIsSelectable="false"
         android:layout_marginTop="5dp"
         android:textColor="#ccc" />
 
@@ -37,7 +37,7 @@
         android:paddingTop="25sp"
         android:paddingLeft="2sp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textIsSelectable="true"
+        android:textIsSelectable="false"
         android:clickable="true"
         android:paddingBottom="10sp" />
 

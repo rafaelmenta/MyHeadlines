@@ -5,15 +5,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
+import android.webkit.WebSettings.PluginState;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.hoops9.myheadlines.R;
 
-@SuppressLint("NewApi")
-public class HeadlineItemActivity extends Activity {
+@SuppressLint({ "NewApi", "SetJavaScriptEnabled" })
+public class HeadlineItemActivity extends Activity  {
 	
+	public static final String LINK = "link";
 	public static final String HEADLINE = "headline";
 	public static final String CONTENT = "content";
+	public static final String TITLE = "title";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +36,23 @@ public class HeadlineItemActivity extends Activity {
 		Intent intent = getIntent();
 		String headline = intent.getStringExtra(HeadlineItemActivity.HEADLINE);
 		String content = intent.getStringExtra(HeadlineItemActivity.CONTENT);
+		String title = intent.getStringExtra(HeadlineItemActivity.TITLE);
+		
+		setTitle(title);
 		
 		TextView textView = (TextView) findViewById(R.id.headline);
 		textView.setText(headline);
 		
-		TextView contentView = (TextView) findViewById(R.id.content);
-		contentView.setTextAppearance(this, android.R.attr.textAppearanceLarge);
-		contentView.setText(content);
+		WebView contentView = (WebView) findViewById(R.id.content);
+		
+		WebSettings webSettings = contentView.getSettings();
+		webSettings.setDefaultTextEncodingName("utf-8");
+		webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+		webSettings.setJavaScriptEnabled(true);
+		webSettings.setPluginState(PluginState.ON);
+		contentView.setWebChromeClient(new WebChromeClient());
+		
+		contentView.loadData(content, "text/html; charset=utf-8", "utf-8");
 	}
 	
 }

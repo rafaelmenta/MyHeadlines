@@ -32,13 +32,14 @@ public class IconicAdapter extends SimpleAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = super.getView(position, convertView, parent);
-		new FaviconLoader(this, row).execute();
-		
 		Map<String, ?> dataMap = data.get(position);
+		
+		new FaviconLoader(this, row).execute((String) dataMap.get(HeadlineItemActivity.LINK));
 
 		final TextView headline = (TextView) row.findViewById(R.id.headline);
 		final String headlineString = (String) dataMap.get(HeadlineItemActivity.HEADLINE);
 		final String contentString = (String) dataMap.get(HeadlineItemActivity.CONTENT);
+		final String titleString = (String) dataMap.get(HeadlineItemActivity.TITLE);
 		
 		headline.setOnClickListener(new OnClickListener() {
 			
@@ -47,6 +48,7 @@ public class IconicAdapter extends SimpleAdapter {
 				Intent intent = new Intent(context, HeadlineItemActivity.class);
 				intent.putExtra(HeadlineItemActivity.HEADLINE, headlineString);
 				intent.putExtra(HeadlineItemActivity.CONTENT, contentString);
+				intent.putExtra(HeadlineItemActivity.TITLE, titleString);
 				context.startActivity(intent);
 				((Activity) context).overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
 			}

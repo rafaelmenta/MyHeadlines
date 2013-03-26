@@ -33,38 +33,44 @@ public class RSSHandler extends DefaultHandler {
 	}
 
 	public List<HeadlineItem> parse() {
-		final HeadlineItem currentMessage = new HeadlineItem();
+		final HeadlineItem currentItem = new HeadlineItem();
 		RootElement root = new RootElement("rss");
 		final List<HeadlineItem> messages = new ArrayList<HeadlineItem>();
 		Element channel = root.getChild(CHANNEL);
+		channel.getChild(TITLE).setEndTextElementListener(
+				new EndTextElementListener() {
+					public void end(String body) {
+						currentItem.setOwner(body);
+					}
+				});
 		Element item = channel.getChild(ITEM);
 		item.setEndElementListener(new EndElementListener() {
 			public void end() {
-				messages.add((HeadlineItem) currentMessage.copy());
+				messages.add((HeadlineItem) currentItem.copy());
 			}
 		});
 		item.getChild(TITLE).setEndTextElementListener(
 				new EndTextElementListener() {
 					public void end(String body) {
-						currentMessage.setHeadline(body);
+						currentItem.setHeadline(body);
 					}
 				});
 		item.getChild(LINK).setEndTextElementListener(
 				new EndTextElementListener() {
 					public void end(String body) {
-						currentMessage.setLink(body);
+						currentItem.setLink(body);
 					}
 				});
-		item.getChild(CONTENT).setEndTextElementListener(
+		item.getChild("http://purl.org/rss/1.0/modules/content/", CONTENT).setEndTextElementListener(
 				new EndTextElementListener() {
 					public void end(String body) {
-						currentMessage.setContent(body);
+						currentItem.setContent(body);
 					}
 				});
 		item.getChild(PUB_DATE).setEndTextElementListener(
 				new EndTextElementListener() {
 					public void end(String body) {
-						currentMessage.setTime(body, DATE_FORMAT);
+						currentItem.setTime(body, DATE_FORMAT);
 					}
 				});
 

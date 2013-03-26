@@ -24,7 +24,7 @@ public class RSSFeedReader extends AsyncTask<String, Void, List<HeadlineItem>>{
 		URL feedUrl;
 		
 		try {
-			feedUrl = new URL("http://www.draftbrasil.net/blog/feed");
+			feedUrl = new URL("http://boingboing.net/feed");
 		} catch (MalformedURLException e) {
 			throw new RuntimeException("URL inválida", e);
 		}

@@ -31,8 +31,8 @@ public class MainActivity extends ListActivity {
 	
 	public void renderHeadLines(List<HeadlineItem> headlines) {
 		// Create the item mapping
-		String[] from = new String[] { "time", "headline", "content" };
-		int[] to = new int[] { R.id.time, R.id.headline, R.id.content };
+		String[] from = new String[] { "time", "headline", "content", "title" };
+		int[] to = new int[] { R.id.time, R.id.headline, R.id.content, R.id.title };
 		
 		List<HashMap<String, Object>> fillMaps = new ArrayList<HashMap<String,Object>>();
 		
@@ -42,6 +42,8 @@ public class MainActivity extends ListActivity {
 			map.put("time", item.getFormattedPubDate());
 			map.put("headline", item.getHeadline());
 			map.put("content", item.getContent());
+			map.put("title", item.getOwner());
+			map.put("link", item.getLink().toString());
 			fillMaps.add(map);
 			map = new HashMap<String, Object>();
 		}

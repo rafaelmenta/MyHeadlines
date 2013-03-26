@@ -25,6 +25,7 @@ public class HeadlineItem implements Comparable<HeadlineItem>, Serializable {
 	private String headline;
 	private URL link;
 	private String content;
+	private String owner;
 
 	public Date getPubDate() {
 		return pubDate;
@@ -111,6 +112,14 @@ public class HeadlineItem implements Comparable<HeadlineItem>, Serializable {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 }

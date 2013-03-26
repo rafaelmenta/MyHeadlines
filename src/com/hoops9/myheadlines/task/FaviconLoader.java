@@ -21,10 +21,10 @@ public class FaviconLoader extends AsyncTask<String, Void, Drawable>{
 		this.currentView = currentView;
 	}
 	
-	public Drawable loadFavicon() {
+	public Drawable loadFavicon(String url) {
 		Drawable drawable = null;
 		try {
-			URL faviconUrl = new URL("http://www.google.com/s2/u/0/favicons?domain_url=http://www.draftbrasil.net/blog/sacramento-apresenta-projeto-de-nova-arena-para-o-kings/");
+			URL faviconUrl = new URL("http://www.google.com/s2/u/0/favicons?domain_url="+url);
 			InputStream inputStream = (InputStream) faviconUrl.getContent();
 			drawable = Drawable.createFromStream(inputStream, null);
 		} catch (MalformedURLException e) {
@@ -39,7 +39,7 @@ public class FaviconLoader extends AsyncTask<String, Void, Drawable>{
 
 	@Override
 	protected Drawable doInBackground(String... params) {
-		return this.loadFavicon();
+		return this.loadFavicon(params[0]);
 	}
 	
 	@Override
